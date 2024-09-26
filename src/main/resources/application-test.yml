@@ -1,0 +1,9 @@
+spring:
+  datasource:
+    url: jdbc:tc:postgresql:15:///testdb
+    username: testuser
+    password: testpass
+  jpa:
+    hibernate:
+      ddl-auto: update
+    show-sql: false
