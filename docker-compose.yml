@@ -1,0 +1,22 @@
+version: '3.8'
+
+services:
+  postgres:
+    image: postgres:13
+    container_name: mock_balance_postgres
+    ports:
+      - "5444:5432"
+    environment:
+      - POSTGRES_DB=mock_balance_test
+      - POSTGRES_USER=mock_balance_user
+      - POSTGRES_PASSWORD=mock_balance_root
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+
+networks:
+  default:
+    external: true
+    name: mock_balance_network
+
+volumes:
+  postgres_data:

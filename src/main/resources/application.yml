@@ -1,0 +1,30 @@
+server:
+  port: 8080
+
+logging:
+  level:
+    root: info
+
+spring:
+  application:
+    name: mockbalance
+  profiles:
+    active: dev
+  datasource:
+    url: jdbc:postgresql://localhost:5444/mock_balance_test
+    username: mock_balance_user
+    password: mock_balance_root
+  jpa:
+    show-sql: true
+    hibernate:
+      ddl-auto: none
+    properties:
+      hibernate:
+        jdbc:
+          time_zone: Europe/Kiev
+        format_sql: true
+  liquibase:
+    change-log: classpath:/db/changelog/changelog-master.xml
+  jackson:
+    time-zone: Europe/Kiev
+
