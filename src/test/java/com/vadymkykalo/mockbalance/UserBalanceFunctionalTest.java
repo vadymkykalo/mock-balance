@@ -53,7 +53,7 @@ public class UserBalanceFunctionalTest {
 
     @Test
     public void testUpdateUserBalancesWithLargeDataset() throws Exception {
-        int userCount = 100_000;
+        int userCount = 100_000; // it also works for millions
         Map<Integer, Integer> balances = new HashMap<>();
 
         for (int i = 1; i <= userCount; i++) {
