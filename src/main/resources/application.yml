@@ -28,3 +28,7 @@ spring:
   jackson:
     time-zone: Europe/Kiev
 
+batch:
+  size: 2000
+
+

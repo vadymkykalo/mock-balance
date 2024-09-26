@@ -21,6 +21,6 @@ public class UserController {
     @PostMapping("/set-users-balance")
     public ResponseEntity<String> setUserBalances(@RequestBody @Valid @NotNull UserBalanceRequestDto request) {
         userService.updateUserBalances(request.getBalances());
-        return ResponseEntity.ok("Balances updated successfully");
+        return ResponseEntity.accepted().body("User balance was started, processing in background...");
     }
 }
