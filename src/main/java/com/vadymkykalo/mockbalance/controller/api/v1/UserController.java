@@ -20,7 +20,7 @@ public class UserController {
 
     @PostMapping("/set-users-balance")
     public ResponseEntity<String> setUserBalances(@RequestBody @Valid @NotNull BalanceDto request) {
-        userService.updateUserBalances(request.getBalances());
+        userService.updateUserBalancesAsync(request.getBalances());
         return ResponseEntity.accepted().body("Batch job started successfully, processing in background...");
     }
 }

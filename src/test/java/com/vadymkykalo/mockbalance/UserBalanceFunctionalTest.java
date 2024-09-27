@@ -4,8 +4,11 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.vadymkykalo.mockbalance.dto.BalanceDto;
 import com.vadymkykalo.mockbalance.entity.User;
 import com.vadymkykalo.mockbalance.repository.UserRepository;
+import com.vadymkykalo.mockbalance.service.BatchProcessor;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import org.mockito.Mock;
+import org.mockito.MockitoAnnotations;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -48,6 +51,7 @@ public class UserBalanceFunctionalTest {
 
     @BeforeEach
     public void setup() {
+        MockitoAnnotations.openMocks(this);
         userRepository.deleteAll();
     }
 

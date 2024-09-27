@@ -4,5 +4,5 @@ import java.util.Map;
 
 public interface UserService {
 
-    void updateUserBalances(Map<Integer, Integer> balances);
+    void updateUserBalancesAsync(Map<Integer, Integer> balances);
 }

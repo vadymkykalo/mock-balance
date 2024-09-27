@@ -45,7 +45,7 @@ public class UserBalanceControllerMockTest {
 
         BalanceDto requestDto = new BalanceDto(balances);
 
-        doNothing().when(userService).updateUserBalances(Mockito.anyMap());
+        doNothing().when(userService).updateUserBalancesAsync(Mockito.anyMap());
 
         mockMvc.perform(post("/api/v1/set-users-balance")
                         .contentType(MediaType.APPLICATION_JSON)
