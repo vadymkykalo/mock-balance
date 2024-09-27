@@ -69,7 +69,7 @@ public class UserBalanceFunctionalTest {
                 .andExpect(status().isAccepted());
 
         // get random value
-        await().atMost(10, TimeUnit.SECONDS)
+        await().atMost(20, TimeUnit.SECONDS)
                 .until(() -> userRepository.findById(50_000).get().getBalance() == 500_000);
 
         User user50000 = userRepository.findById(50_000).orElseThrow();

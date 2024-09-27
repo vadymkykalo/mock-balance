@@ -6,7 +6,10 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
+import org.springframework.transaction.PlatformTransactionManager;
+import org.springframework.transaction.TransactionDefinition;
+import org.springframework.transaction.TransactionStatus;
+import org.springframework.transaction.support.DefaultTransactionDefinition;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -23,8 +26,8 @@ public class UserServiceImpl implements UserService {
 
     private final UserRepository userRepository;
     private final ExecutorService userBalanceExecutor;
+    private final PlatformTransactionManager transactionManager;
 
-    @Transactional
     public void updateUserBalances(Map<Integer, Integer> balances) {
         List<Integer> userIds = new ArrayList<>(balances.keySet());
 
@@ -32,15 +35,17 @@ public class UserServiceImpl implements UserService {
             List<Integer> batchUserIds = userIds.subList(i, Math.min(i + batchSize, userIds.size()));
 
             userBalanceExecutor.submit(() -> {
-                long startTime = System.currentTimeMillis();
+                DefaultTransactionDefinition def = new DefaultTransactionDefinition();
+                def.setName("batchTransaction");
+                def.setPropagationBehavior(TransactionDefinition.PROPAGATION_REQUIRED);
+
+                TransactionStatus status = transactionManager.getTransaction(def);
+
                 try {
                     processBatch(batchUserIds, balances);
-
-                    long endTime = System.currentTimeMillis();
-                    double duration = (endTime - startTime) / 1000.0;
-
-                    log.info("Batch size {} processed in {} seconds", batchUserIds.size(), duration);
+                    transactionManager.commit(status);
                 } catch (Exception e) {
+                    transactionManager.rollback(status);
                     log.error("Error processing batch {}: {}", batchUserIds, e.getMessage());
                 }
             });
