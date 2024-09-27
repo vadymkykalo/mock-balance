@@ -1,7 +1,7 @@
 package com.vadymkykalo.mockbalance;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.vadymkykalo.mockbalance.dto.UserBalanceRequestDto;
+import com.vadymkykalo.mockbalance.dto.BalanceDto;
 import com.vadymkykalo.mockbalance.service.UserService;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mockito;
@@ -36,14 +36,14 @@ public class UserBalanceControllerMockTest {
     private UserService userService;
 
     @Test
-    public void testSetUserBalancesResponse() throws Exception {
+    public void testSetUserBalancesResponseV1() throws Exception {
 
         Map<Integer, Integer> balances = new HashMap<>();
         balances.put(1, 500);
         balances.put(2, 600);
         balances.put(3, 700);
 
-        UserBalanceRequestDto requestDto = new UserBalanceRequestDto(balances);
+        BalanceDto requestDto = new BalanceDto(balances);
 
         doNothing().when(userService).updateUserBalances(Mockito.anyMap());
 
@@ -51,6 +51,6 @@ public class UserBalanceControllerMockTest {
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(objectMapper.writeValueAsString(requestDto)))
                 .andExpect(status().isAccepted())
-                .andExpect(content().string("User balance was started, processing in background..."));
+                .andExpect(content().string("Batch job started successfully, processing in background..."));
     }
 }

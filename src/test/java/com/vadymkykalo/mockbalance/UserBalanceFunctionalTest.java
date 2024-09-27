@@ -1,7 +1,7 @@
 package com.vadymkykalo.mockbalance;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.vadymkykalo.mockbalance.dto.UserBalanceRequestDto;
+import com.vadymkykalo.mockbalance.dto.BalanceDto;
 import com.vadymkykalo.mockbalance.entity.User;
 import com.vadymkykalo.mockbalance.repository.UserRepository;
 import org.junit.jupiter.api.BeforeEach;
@@ -52,7 +52,7 @@ public class UserBalanceFunctionalTest {
     }
 
     @Test
-    public void testUpdateUserBalancesWithLargeDataset() throws Exception {
+    public void testUpdateUserBalancesWithLargeDatasetV1() throws Exception {
         int userCount = 100_000; // it also works for millions
         Map<Integer, Integer> balances = new HashMap<>();
 
@@ -61,7 +61,7 @@ public class UserBalanceFunctionalTest {
             balances.put(i, i * 10);
         }
 
-        UserBalanceRequestDto requestDto = new UserBalanceRequestDto(balances);
+        BalanceDto requestDto = new BalanceDto(balances);
 
         mockMvc.perform(post("/api/v1/set-users-balance")
                         .contentType(MediaType.APPLICATION_JSON)
@@ -77,7 +77,7 @@ public class UserBalanceFunctionalTest {
     }
 
     @Test
-    public void testUpdateSpecificUserBalances() throws Exception {
+    public void testUpdateSpecificUserBalancesV1() throws Exception {
         userRepository.save(new User(1, "User1", 100));
         userRepository.save(new User(2, "User2", 200));
         userRepository.save(new User(3, "User3", 300));
@@ -87,7 +87,7 @@ public class UserBalanceFunctionalTest {
         balances.put(2, 600);
         balances.put(3, 700);
 
-        UserBalanceRequestDto requestDto = new UserBalanceRequestDto(balances);
+        BalanceDto requestDto = new BalanceDto(balances);
 
         mockMvc.perform(post("/api/v1/set-users-balance")
                         .contentType(MediaType.APPLICATION_JSON)

@@ -33,13 +33,16 @@ public class UserServiceImpl implements UserService {
 
             userBalanceExecutor.submit(() -> {
                 long startTime = System.currentTimeMillis();
+                try {
+                    processBatch(batchUserIds, balances);
 
-                processBatch(batchUserIds, balances);
+                    long endTime = System.currentTimeMillis();
+                    double duration = (endTime - startTime) / 1000.0;
 
-                long endTime = System.currentTimeMillis();
-                double duration = (endTime - startTime) / 1000.0;
-
-                log.info("Batch size {} processed in {} seconds", batchUserIds.size(), duration);
+                    log.info("Batch size {} processed in {} seconds", batchUserIds.size(), duration);
+                } catch (Exception e) {
+                    log.error("Error processing batch {}: {}", batchUserIds, e.getMessage());
+                }
             });
         }
     }

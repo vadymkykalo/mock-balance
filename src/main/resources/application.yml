@@ -6,6 +6,11 @@ logging:
     root: info
 
 spring:
+  main:
+    allow-bean-definition-overriding: true
+  batch:
+    jdbc:
+      initialize-schema: always
   application:
     name: mockbalance
   profiles:

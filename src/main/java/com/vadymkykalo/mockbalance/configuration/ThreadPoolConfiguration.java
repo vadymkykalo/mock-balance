@@ -13,5 +13,4 @@ public class ThreadPoolConfiguration {
     public ExecutorService userBalanceExecutor() {
         return Executors.newFixedThreadPool(Runtime.getRuntime().availableProcessors());
     }
-
 }

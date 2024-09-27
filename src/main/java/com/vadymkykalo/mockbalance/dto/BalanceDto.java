@@ -10,7 +10,7 @@ import java.util.Map;
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-public class UserBalanceRequestDto {
+public class BalanceDto {
     @NotEmpty
     private Map<Integer, Integer> balances;
 }
