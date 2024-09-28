@@ -2,9 +2,9 @@
 sandbox repository
 
 ## Prerequisites
-- Docker
-- Docker Compose
-- Maven
+- Docker (use in test testcontainers)
+- Docker Compose (optional)
+- Maven (optional)
 - Java 17
 
 ## Running the Database in Docker
