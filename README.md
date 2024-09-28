@@ -1,7 +1,39 @@
-# mock-balance
+# Mock-balance
 sandbox repository
 
-### current improvement
+## Prerequisites
+- Docker
+- Docker Compose
+- Maven
+- Java 17
+
+## Running the Database in Docker
+To start the database using Docker Compose, run the following command:
+```bash
+make db-up
+```
+
+To stop and remove the database container, run:
+```bash
+make db-downv
+```
+
+## Running Tests
+If you prefer to run the tests locally using `Maven`
+```bash
+make test
+```
+## Running Tests in Docker
+```bash
+make docker-test
+```
+If you encounter permission issues with the target directory after running tests in Docker,
+you can reset the permissions to your current user with the following command:
+```bash
+sudo chown -R $(id -u):$(id -g) $(pwd)/target
+```
+
+## current improvement
 
 Наразі рішення оновлення балансів базується виключно на мові `Java` за допомогою асинхронної 
 обробки через `ExecutorService`. Також реалізовано механізм ретраїв: якщо транзакція для певного
@@ -10,7 +42,7 @@ sandbox repository
 
 В тестах можна поставити `1_000_000` мапу сгенерувати і запустити тест, відпрацьовує. Код саму задачу виконує.
 
-### possible improvement
+## possible improvement
 
 Необхідна гарантія доставки повідомлень. Використовуючи сторонні
 системи для забезпечення гарантованої доставки, такі як `RabbitMQ` чи `Kafka`.
