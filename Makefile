@@ -1,20 +1,12 @@
 # Define a standard target that will be executed by default if a specific target is not specified.
-.PHONY: up down build
+.PHONY: up downv
 
 up:
 	docker-compose up -d
 
-down:
-	docker-compose down
-
 downv:
 	docker-compose down -v
 
-build:
-	docker-compose build
+test:
+	mvn clean test
 
-ps:
-	docker-compose ps
-
-create-network:
-	docker network create mock_balance_network

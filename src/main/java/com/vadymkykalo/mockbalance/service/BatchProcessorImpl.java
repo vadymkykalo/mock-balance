@@ -4,6 +4,7 @@ import com.vadymkykalo.mockbalance.entity.User;
 import com.vadymkykalo.mockbalance.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.retry.annotation.Backoff;
 import org.springframework.retry.annotation.Recover;
 import org.springframework.retry.annotation.Retryable;
@@ -26,13 +27,14 @@ public class BatchProcessorImpl implements BatchProcessor {
 
     @Retryable(
             value = { Exception.class },
+            exclude = {DataIntegrityViolationException.class},
             maxAttempts = 3,
             backoff = @Backoff(delay = 2000)
     )
     public void processBatch(List<Integer> batchUserIds, Map<Integer, Integer> balances) {
         DefaultTransactionDefinition def = new DefaultTransactionDefinition();
         def.setName("batchTransaction");
-        def.setPropagationBehavior(TransactionDefinition.PROPAGATION_REQUIRED);
+        def.setPropagationBehavior(TransactionDefinition.PROPAGATION_REQUIRES_NEW);
 
         TransactionStatus status = transactionManager.getTransaction(def);
 

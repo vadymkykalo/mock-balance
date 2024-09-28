@@ -13,10 +13,5 @@ services:
     volumes:
       - postgres_data:/var/lib/postgresql/data
 
-networks:
-  default:
-    external: true
-    name: mock_balance_network
-
 volumes:
   postgres_data:

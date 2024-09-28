@@ -6,11 +6,6 @@ logging:
     root: info
 
 spring:
-  main:
-    allow-bean-definition-overriding: true
-  batch:
-    jdbc:
-      initialize-schema: always
   application:
     name: mockbalance
   profiles:
@@ -21,17 +16,12 @@ spring:
     password: mock_balance_root
   jpa:
     show-sql: true
+    open-in-view: false
     hibernate:
-      ddl-auto: none
+      ddl-auto: update
     properties:
       hibernate:
-        jdbc:
-          time_zone: Europe/Kiev
         format_sql: true
-  liquibase:
-    change-log: classpath:/db/changelog/changelog-master.xml
-  jackson:
-    time-zone: Europe/Kiev
 
 batch:
   size: 2000

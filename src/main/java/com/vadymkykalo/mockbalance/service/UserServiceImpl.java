@@ -1,5 +1,6 @@
 package com.vadymkykalo.mockbalance.service;
 
+import jakarta.annotation.PreDestroy;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
@@ -9,6 +10,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 import java.util.concurrent.ExecutorService;
+import java.util.concurrent.TimeUnit;
 
 @Slf4j
 @Service
@@ -28,6 +30,22 @@ public class UserServiceImpl implements UserService {
             List<Integer> batchUserIds = userIds.subList(i, Math.min(i + batchSize, userIds.size()));
 
             userBalanceExecutor.submit(() -> batchProcessor.processBatch(batchUserIds, balances));
+        }
+    }
+
+    @PreDestroy
+    public void shutdownExecutorService() {
+        userBalanceExecutor.shutdown();
+        try {
+            if (!userBalanceExecutor.awaitTermination(60, TimeUnit.SECONDS)) {
+                userBalanceExecutor.shutdownNow();
+                if (!userBalanceExecutor.awaitTermination(60, TimeUnit.SECONDS)) {
+                    log.error("Executor is not terminate");
+                }
+            }
+        } catch (InterruptedException ie) {
+            userBalanceExecutor.shutdownNow();
+            Thread.currentThread().interrupt();
         }
     }
 }
