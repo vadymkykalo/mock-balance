@@ -26,7 +26,7 @@ public class BatchProcessorImpl implements BatchProcessor {
     private final PlatformTransactionManager transactionManager;
 
     @Retryable(
-            value = { Exception.class },
+            value = {Exception.class},
             exclude = {DataIntegrityViolationException.class},
             maxAttempts = 3,
             backoff = @Backoff(delay = 2000)
@@ -50,7 +50,7 @@ public class BatchProcessorImpl implements BatchProcessor {
             transactionManager.commit(status);
         } catch (Exception e) {
             transactionManager.rollback(status);
-            log.error("Error processing batch {}: {}", batchUserIds, e.getMessage());
+            log.error("Error processing batch ... Message: {}", e.getMessage());
             throw e;
         }
     }
