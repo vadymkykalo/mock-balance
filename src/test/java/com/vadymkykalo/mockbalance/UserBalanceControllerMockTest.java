@@ -38,12 +38,12 @@ public class UserBalanceControllerMockTest {
     @Test
     public void testSetUserBalancesResponseV1() throws Exception {
 
-        Map<Integer, Integer> balances = new HashMap<>();
-        balances.put(1, 500);
-        balances.put(2, 600);
-        balances.put(3, 700);
+        Map<Integer, Integer> userIdBalance = new HashMap<>();
+        userIdBalance.put(1, 500);
+        userIdBalance.put(2, 600);
+        userIdBalance.put(3, 700);
 
-        UserBalancesDto requestDto = new UserBalancesDto(balances);
+        UserBalancesDto requestDto = new UserBalancesDto(userIdBalance);
 
         doNothing().when(userService).updateUserBalancesAsync(Mockito.anyMap());
 

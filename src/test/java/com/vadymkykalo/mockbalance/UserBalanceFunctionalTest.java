@@ -46,14 +46,14 @@ public class UserBalanceFunctionalTest {
     @Test
     public void testUpdateUserBalancesWithLargeDatasetV1() throws Exception {
         int userCount = 100_000; // it also works for millions
-        Map<Integer, Integer> balances = new HashMap<>();
+        Map<Integer, Integer> userIdBalance = new HashMap<>();
 
         for (int i = 1; i <= userCount; i++) {
             userRepository.save(new User(i, "User" + i, 100));
-            balances.put(i, i * 10);
+            userIdBalance.put(i, i * 10);
         }
 
-        UserBalancesDto requestDto = new UserBalancesDto(balances);
+        UserBalancesDto requestDto = new UserBalancesDto(userIdBalance);
 
         mockMvc.perform(post("/api/v1/set-users-balance")
                         .contentType(MediaType.APPLICATION_JSON)
@@ -74,12 +74,12 @@ public class UserBalanceFunctionalTest {
         userRepository.save(new User(2, "User2", 200));
         userRepository.save(new User(3, "User3", 300));
 
-        Map<Integer, Integer> balances = new HashMap<>();
-        balances.put(1, 500);
-        balances.put(2, 600);
-        balances.put(3, 700);
+        Map<Integer, Integer> userIdBalance = new HashMap<>();
+        userIdBalance.put(1, 500);
+        userIdBalance.put(2, 600);
+        userIdBalance.put(3, 700);
 
-        UserBalancesDto requestDto = new UserBalancesDto(balances);
+        UserBalancesDto requestDto = new UserBalancesDto(userIdBalance);
 
         mockMvc.perform(post("/api/v1/set-users-balance")
                         .contentType(MediaType.APPLICATION_JSON)

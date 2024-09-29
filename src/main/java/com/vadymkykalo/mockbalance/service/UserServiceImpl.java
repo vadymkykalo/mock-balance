@@ -24,13 +24,13 @@ public class UserServiceImpl implements UserService {
     private final ExecutorService userBalanceExecutor;
 
     @Override
-    public void updateUserBalancesAsync(Map<Integer, Integer> balances) {
-        List<Integer> userIds = new ArrayList<>(balances.keySet());
+    public void updateUserBalancesAsync(Map<Integer, Integer> userIdBalance) {
+        List<Integer> userIds = new ArrayList<>(userIdBalance.keySet());
 
         for (int i = 0; i < userIds.size(); i += batchSize) {
             List<Integer> batchUserIds = userIds.subList(i, Math.min(i + batchSize, userIds.size()));
 
-            userBalanceExecutor.submit(() -> batchProcessor.processBatch(batchUserIds, balances));
+            userBalanceExecutor.submit(() -> batchProcessor.processBatch(batchUserIds, userIdBalance));
         }
     }
 

@@ -28,11 +28,11 @@ public class BatchProcessorImpl implements BatchProcessor {
     )
     @Transactional
     @Override
-    public void processBatch(List<Integer> batchUserIds, Map<Integer, Integer> balances) {
+    public void processBatch(List<Integer> batchUserIds, Map<Integer, Integer> userIdBalance) {
         try {
             List<User> usersBatch = userRepository.findAllById(batchUserIds);
             for (User user : usersBatch) {
-                Integer newBalance = balances.get(user.getId());
+                Integer newBalance = userIdBalance.get(user.getId());
                 if (newBalance != null) {
                     user.setBalance(newBalance);
                 }
