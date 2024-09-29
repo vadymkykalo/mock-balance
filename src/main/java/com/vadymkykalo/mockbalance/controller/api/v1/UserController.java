@@ -1,6 +1,6 @@
 package com.vadymkykalo.mockbalance.controller.api.v1;
 
-import com.vadymkykalo.mockbalance.dto.BalanceDto;
+import com.vadymkykalo.mockbalance.dto.UserBalancesDto;
 import com.vadymkykalo.mockbalance.service.UserService;
 import jakarta.validation.Valid;
 import jakarta.validation.constraints.NotNull;
@@ -19,8 +19,8 @@ public class UserController {
     private final UserService userService;
 
     @PostMapping("/set-users-balance")
-    public ResponseEntity<String> setUserBalances(@RequestBody @Valid @NotNull BalanceDto request) {
-        userService.updateUserBalancesAsync(request.getBalances());
+    public ResponseEntity<String> setUserBalances(@RequestBody @Valid @NotNull UserBalancesDto request) {
+        userService.updateUserBalancesAsync(request.getUserIdBalanceValue());
         return ResponseEntity.accepted().body("Batch job started successfully, processing in background...");
     }
 }

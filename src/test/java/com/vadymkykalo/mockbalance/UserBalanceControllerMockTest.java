@@ -1,7 +1,7 @@
 package com.vadymkykalo.mockbalance;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.vadymkykalo.mockbalance.dto.BalanceDto;
+import com.vadymkykalo.mockbalance.dto.UserBalancesDto;
 import com.vadymkykalo.mockbalance.service.UserService;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mockito;
@@ -43,7 +43,7 @@ public class UserBalanceControllerMockTest {
         balances.put(2, 600);
         balances.put(3, 700);
 
-        BalanceDto requestDto = new BalanceDto(balances);
+        UserBalancesDto requestDto = new UserBalancesDto(balances);
 
         doNothing().when(userService).updateUserBalancesAsync(Mockito.anyMap());
 

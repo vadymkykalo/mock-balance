@@ -1,7 +1,7 @@
 package com.vadymkykalo.mockbalance;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.vadymkykalo.mockbalance.dto.BalanceDto;
+import com.vadymkykalo.mockbalance.dto.UserBalancesDto;
 import com.vadymkykalo.mockbalance.entity.User;
 import com.vadymkykalo.mockbalance.repository.UserRepository;
 import org.junit.jupiter.api.BeforeEach;
@@ -53,7 +53,7 @@ public class UserBalanceFunctionalTest {
             balances.put(i, i * 10);
         }
 
-        BalanceDto requestDto = new BalanceDto(balances);
+        UserBalancesDto requestDto = new UserBalancesDto(balances);
 
         mockMvc.perform(post("/api/v1/set-users-balance")
                         .contentType(MediaType.APPLICATION_JSON)
@@ -79,7 +79,7 @@ public class UserBalanceFunctionalTest {
         balances.put(2, 600);
         balances.put(3, 700);
 
-        BalanceDto requestDto = new BalanceDto(balances);
+        UserBalancesDto requestDto = new UserBalancesDto(balances);
 
         mockMvc.perform(post("/api/v1/set-users-balance")
                         .contentType(MediaType.APPLICATION_JSON)
