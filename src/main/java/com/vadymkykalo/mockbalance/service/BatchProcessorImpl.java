@@ -9,10 +9,7 @@ import org.springframework.retry.annotation.Backoff;
 import org.springframework.retry.annotation.Recover;
 import org.springframework.retry.annotation.Retryable;
 import org.springframework.stereotype.Service;
-import org.springframework.transaction.PlatformTransactionManager;
-import org.springframework.transaction.TransactionDefinition;
-import org.springframework.transaction.TransactionStatus;
-import org.springframework.transaction.support.DefaultTransactionDefinition;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 import java.util.Map;
@@ -23,7 +20,6 @@ import java.util.Map;
 public class BatchProcessorImpl implements BatchProcessor {
 
     private final UserRepository userRepository;
-    private final PlatformTransactionManager transactionManager;
 
     @Retryable(
             value = {Exception.class},
@@ -31,13 +27,9 @@ public class BatchProcessorImpl implements BatchProcessor {
             maxAttempts = 3,
             backoff = @Backoff(delay = 2000)
     )
+    @Transactional
+    @Override
     public void processBatch(List<Integer> batchUserIds, Map<Integer, Integer> balances) {
-        DefaultTransactionDefinition def = new DefaultTransactionDefinition();
-        def.setName("batchTransaction");
-        def.setPropagationBehavior(TransactionDefinition.PROPAGATION_REQUIRES_NEW);
-
-        TransactionStatus status = transactionManager.getTransaction(def);
-
         try {
             List<User> usersBatch = userRepository.findAllById(batchUserIds);
             for (User user : usersBatch) {
@@ -47,15 +39,14 @@ public class BatchProcessorImpl implements BatchProcessor {
                 }
             }
             userRepository.saveAll(usersBatch);
-            transactionManager.commit(status);
         } catch (Exception e) {
-            transactionManager.rollback(status);
             log.error("Error processing batch ... Message: {}", e.getMessage());
             throw e;
         }
     }
 
     @Recover
+    @Override
     public void recover(Exception e, Map<Integer, Integer> balances) {
         log.error("Retries exhausted for balances: {}", balances);
     }

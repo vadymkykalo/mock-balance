@@ -23,6 +23,7 @@ public class UserServiceImpl implements UserService {
     private final BatchProcessor batchProcessor;
     private final ExecutorService userBalanceExecutor;
 
+    @Override
     public void updateUserBalancesAsync(Map<Integer, Integer> balances) {
         List<Integer> userIds = new ArrayList<>(balances.keySet());
 
