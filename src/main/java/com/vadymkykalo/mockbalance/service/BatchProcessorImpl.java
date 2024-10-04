@@ -30,14 +30,12 @@ public class BatchProcessorImpl implements BatchProcessor {
     @Override
     public void processBatch(List<Integer> batchUserIds, Map<Integer, Integer> userIdBalance) {
         try {
-            List<User> usersBatch = userRepository.findAllById(batchUserIds);
-            for (User user : usersBatch) {
-                Integer newBalance = userIdBalance.get(user.getId());
+            for (Integer userId : batchUserIds) {
+                Integer newBalance = userIdBalance.get(userId);
                 if (newBalance != null) {
-                    user.setBalance(newBalance);
+                    userRepository.updateUserBalance(userId, newBalance);
                 }
             }
-            userRepository.saveAll(usersBatch);
         } catch (Exception e) {
             log.error("Error processing batch ... Message: {}", e.getMessage());
             throw e;
