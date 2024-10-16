@@ -27,6 +27,7 @@ make test
 ```bash
 make docker-test
 ```
+
 If you encounter permission issues with the target directory after running tests in Docker,
 you can reset the permissions to your current user with the following command:
 ```bash
